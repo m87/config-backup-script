@@ -30,19 +30,52 @@ if(args.clean):
     with open(args.file, 'r') as file:
         json=file.read().replace('\n','')
     items = jsonpickle.decode(json)
-    file.close()
     os.remove(args.file)
     shutil.rmtree(items[0].src)
     shutil.rmtree(items[0].dst)
 
 if(args.update):
-    pass
+    with open(args.file, 'r') as file:
+        json = file.read().replace('\n','')
+    items = jsonpickle.decode(json)
+    for item in items:
+        if item.id==0:
+            continue
+        if os.path.isfile(item.dst):
+            shutil.copy(item.dst, item.src)
+        else:
+            try:
+                shutil.rmtree(os.path.join(item.src,os.path.basename(os.path.normpath(item.dst))))
+            except:
+                pass
+            shutil.copytree(item.dst, os.path.join(item.src,os.path.basename(os.path.normpath(item.dst))))
 
 if(args.restore):
-    pass
-
+    with open(args.file, 'r') as file:
+        json = file.read().replace('\n','')
+    items = jsonpickle.decode(json)
+    for item in items:
+        if item.id==0:
+            continue
+        if os.path.isfile(os.path.join(item.src, os.path.basename(os.path.normpath(item.dst)))):
+            shutil.copy(os.path.join(item.src, os.path.basename(os.path.normpath(item.dst))), item.dst)
+        else:
+            try:
+                shutil.rmtree(os.path.join(item.dst))
+            except:
+                pass
+            shutil.copytree(os.path.join(item.src,os.path.basename(os.path.normpath(item.dst))),item.dst)
 
 if(args.backup):
+    file = open(args.file, 'w')
+    items.append(Item(0,args.dir, args.old))
+    if(args.dir != '.'):
+        os.mkdir(args.dir)
+    os.mkdir(args.old)
+    file.write(jsonpickle.encode(items))
+    file.close()
+
+if(args.add_config!=None):
     if os.path.exists(args.file):
         with open(args.file, 'r') as file:
             json=file.read().replace('\n','')
@@ -53,21 +86,13 @@ if(args.backup):
         if args.add_config!=None:
             items.append(Item(id,os.path.join(dir,str(id)), args.add_config))
             os.mkdir(os.path.join(dir,str(id)))
-            shutil.copy(args.add_config, os.path.join(dir,str(id)))
+            if os.path.isfile(args.add_config):
+                shutil.copy(args.add_config, os.path.join(dir,str(id)))
+            else:
+                shutil.copytree(args.add_config, os.path.join(dir,str(id),os.path.basename(os.path.normpath(args.add_config))))
 
-        file = open(args.file, 'w')
-        file.write(jsonpickle.encode(items))
-        file.close()
+
+        with open(args.file, 'w') as file:
+            file.write(jsonpickle.encode(items))
 
 
-    else:
-        file = open(args.file, 'w')
-        items.append(Item(0,args.dir, args.old))
-        if(args.dir != '.'):
-            os.mkdir(args.dir)
-        os.mkdir(args.old)
-
-                     
-
-        file.write(jsonpickle.encode(items))
-        file.close()
