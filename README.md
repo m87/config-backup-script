@@ -1,17 +1,17 @@
 config-backup-script
 ====================
-usage: configbk [-h] [-b] [-u] [-r] [-f FILE] [-d DIR] [-o OLD]
+usage: configbk [-h] [-b] [-u] [-r] [-f FILE] [-d DIR] [-o OLD]<br>
                 [-c ADD_CONFIG] [-C]
 
-optional arguments:
--h, --help            show this help message and exit
--b, --backup          Create/update backup
--u, --update          Update configs
--r, --restore         Restore configs
--f FILE, --file FILE  Config file
--d DIR, --dir DIR     Backup dir
--o OLD, --old OLD     Old configs dir
--c ADD_CONFIG, --add-config ADD_CONFIG
-                      Add new config
+optional arguments:<br>
+-h, --help            show this help message and exit<br>
+-b, --backup          Create/update backup<br>
+-u, --update          Update configs<br>
+-r, --restore         Restore configs<br>
+-f FILE, --file FILE  Config file<br>
+-d DIR, --dir DIR     Backup dir<br>
+-o OLD, --old OLD     Old configs dir<br>
+-c ADD_CONFIG, --add-config ADD_CONFIG<br>
+                      Add new config<br>
 -C, --clean           Clean
 
