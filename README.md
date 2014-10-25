@@ -1,7 +1,7 @@
 config-backup-script
 ====================
 usage: configbk [-h] [-b] [-u] [-r] [-f FILE] [-d DIR] [-o OLD]<br>
-[-c ADD_CONFIG] [-C]
+[-c ADD_CONFIG] [-C] [-l] [-R REMOVE]
 
 optional arguments:<br>
 <table>
@@ -15,5 +15,7 @@ optional arguments:<br>
 <tr><td>-c ADD_CONFIG, --add-config ADD_CONFIG</td>
 <td>Add new config</td></tr>
 <tr><td>-C, --clean   </td>     <td>    Clean</td></tr>
+<tr><td>-l, --list   </td>     <td>    List configs</td></tr>
+<tr><td>-R REMOVE, --remove REMOVE  </td>     <td>    Remove config</td></tr>
 
 </table>

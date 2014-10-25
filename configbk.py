@@ -21,9 +21,31 @@ if __name__ == '__main__':
     parser.add_argument("-o", "--old", type=str, default='../old', help='Old configs dir')
     parser.add_argument("-c", "--add-config", type=str, help='Add new config')
     parser.add_argument("-C", "--clean", action='store_true', default=False, help="Clean")
+    parser.add_argument("-l", "--list", action='store_true', default=False, help="List configs")
+    parser.add_argument("-R", "--remove", type=int, default=None, help="Remove config")
 
 args = parser.parse_args()
 items = []
+
+
+if(args.list):
+    with open(args.file, 'r') as file:
+        json = file.read().replace('\n','')
+    items = jsonpickle.decode(json)
+    for item in items:
+        if item.id == 0:
+            continue
+        print item.id, item.dst
+
+if(args.remove!=None):
+    with open(args.file, 'r') as file:
+        json=file.read().replace('\n','')
+    items = jsonpickle.decode(json)
+    shutil.rmtree(items[args.remove].src)
+    items.remove(items[args.remove])
+    with open(args.file, 'w') as file:
+        file.write(jsonpickle.encode(items))
+
 
 
 if(args.clean):
